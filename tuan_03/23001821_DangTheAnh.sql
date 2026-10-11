@@ -1,7 +1,4 @@
--- TUAN 3: THUC HANH MYSQL (ca 2 bai trong 1 file)
--- Chay bang: mysql -u root < tuan_03.sql
-
--- ================= BAI 1: QUAN LY GIO HANG =================
+-- BAI 1
 CREATE DATABASE IF NOT EXISTS shopping_cart CHARACTER SET utf8mb4;
 USE shopping_cart;
 
@@ -13,7 +10,7 @@ CREATE TABLE cart_items (
     quantity INT NOT NULL
 );
 
--- 1. Them it nhat 5 san pham
+-- 1
 INSERT INTO cart_items (name, price, quantity) VALUES
     ('Ao thun', 150000, 2),
     ('Quan jeans', 350000, 1),
@@ -21,35 +18,35 @@ INSERT INTO cart_items (name, price, quantity) VALUES
     ('Mu luoi trai', 120000, 8),
     ('Ao khoac', 500000, 6);
 
--- 2. Hien thi toan bo san pham
+-- 2
 SELECT * FROM cart_items;
 
--- 3. San pham co gia lon hon 100000
+-- 3
 SELECT * FROM cart_items WHERE price > 100000;
 
--- 4. San pham co so luong lon hon 5
+-- 4
 SELECT * FROM cart_items WHERE quantity > 5;
 
--- 5. Sap xep theo gia giam dan
+-- 5
 SELECT * FROM cart_items ORDER BY price DESC;
 
--- 6. Cap nhat gia cua mot san pham
+-- 6
 UPDATE cart_items SET price = 380000 WHERE name = 'Quan jeans';
 
--- 7. Cap nhat so luong cua mot san pham
+-- 7
 UPDATE cart_items SET quantity = 10 WHERE name = 'Mu luoi trai';
 
--- 8. Xoa mot san pham
+-- 8
 DELETE FROM cart_items WHERE name = 'Ao khoac';
 
--- 9. Hien thi ten, gia, so luong va thanh tien
+-- 9
 SELECT name, price, quantity, price * quantity AS thanh_tien
 FROM cart_items;
 
--- 10. Tinh tong tien toan bo gio hang
+-- 10
 SELECT SUM(price * quantity) AS tong_tien FROM cart_items;
 
--- ================= BAI 2: QUAN LY VE XEM PHIM =================
+-- BAI 2
 CREATE DATABASE IF NOT EXISTS movie_tickets CHARACTER SET utf8mb4;
 USE movie_tickets;
 
@@ -62,7 +59,7 @@ CREATE TABLE movies (
     available_seats INT NOT NULL
 );
 
--- 1. Them it nhat 5 bo phim
+-- 1
 INSERT INTO movies (title, price, total_seats, available_seats) VALUES
     ('Avengers', 100000, 100, 93),
     ('Avatar', 120000, 80, 75),
@@ -70,37 +67,37 @@ INSERT INTO movies (title, price, total_seats, available_seats) VALUES
     ('Dune', 110000, 90, 40),
     ('Oppenheimer', 130000, 70, 65);
 
--- 2. Hien thi toan bo danh sach phim
+-- 2
 SELECT * FROM movies;
 
--- 3. Phim co gia ve lon hon 100000
+-- 3
 SELECT * FROM movies WHERE price > 100000;
 
--- 4. Phim con nhieu hon 50 ghe
+-- 4
 SELECT * FROM movies WHERE available_seats > 50;
 
--- 5. Sap xep theo gia ve giam dan
+-- 5
 SELECT * FROM movies ORDER BY price DESC;
 
--- 6. Cap nhat so ghe con lai cua mot phim
+-- 6
 UPDATE movies SET available_seats = 90 WHERE title = 'Avengers';
 
--- 7. Xoa mot phim
+-- 7
 DELETE FROM movies WHERE title = 'Batman';
 
--- 8. So ve da ban cua tung phim
+-- 8
 SELECT title, total_seats - available_seats AS ve_da_ban
 FROM movies;
 
--- 9. Doanh thu cua tung phim
+-- 9
 SELECT title, (total_seats - available_seats) * price AS doanh_thu
 FROM movies;
 
--- 10. Tong doanh thu tat ca cac phim
+-- 10
 SELECT SUM((total_seats - available_seats) * price) AS tong_doanh_thu
 FROM movies;
 
--- 11. Phim co so ve ban ra nhieu nhat
+-- 11
 SELECT *, total_seats - available_seats AS ve_da_ban
 FROM movies
 ORDER BY ve_da_ban DESC
