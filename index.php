@@ -8,6 +8,7 @@
 <?php foreach ($tuans as $t): $n = (int)substr($t, 5); ?>
   <li><a href="<?= $t ?>/">Tuần <?= $n ?></a></li>
 <?php endforeach; ?>
+  <li><a href="midterm/">Bài tập giữa kỳ</a></li>
 </ul>
 </body>
 </html>
