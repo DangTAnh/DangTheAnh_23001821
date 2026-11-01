@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bài 2 · Đặt vé xem phim</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/vue.global.prod.js" defer></script>
+  <script src="assets/bai_2.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><a href="index.html">Tuần 6</a><nav aria-label="Bài tập"><a href="bai_1.html">Bài 1</a><a href="bai_2.html" aria-current="page">Bài 2</a><a href="bai_3.html">Bài 3</a></nav></header>
+  <main>
+    <h1>Bài 2: Đặt vé xem phim</h1>
+    <div id="app" v-cloak>
+      <div class="two-column booking-layout">
+        <section class="panel">
+          <h2>Thông tin đặt vé</h2>
+          <form class="form-stack" @submit.prevent="bookTickets">
+            <label for="customer-name">Họ tên khách hàng<input id="customer-name" v-model.trim="customerName" type="text" autocomplete="name" placeholder="Nhập họ và tên" required></label>
+            <label for="showtime">Suất chiếu<select id="showtime" v-model="showtime"><option v-for="time in showtimes" :key="time" :value="time">{{ time }}</option></select></label>
+            <fieldset><legend>Loại vé</legend><div class="ticket-options"><label class="ticket-option" :class="{ selected: ticketType === 'standard' }"><input v-model="ticketType" type="radio" value="standard" name="ticket-type"><span>Vé thường<strong>70.000 đ</strong></span></label><label class="ticket-option" :class="{ selected: ticketType === 'vip' }"><input v-model="ticketType" type="radio" value="vip" name="ticket-type"><span>Vé VIP<strong>100.000 đ</strong></span></label></div></fieldset>
+            <div><label for="quantity">Số lượng vé</label><div class="quantity-control"><button type="button" class="button secondary" @click="changeQuantity(-1)" :disabled="!validQuantity || quantity <= 1" aria-label="Giảm số lượng">−</button><input id="quantity" v-model.number="quantity" type="number" min="1" max="10" step="1" required :aria-invalid="!validQuantity" aria-describedby="quantity-help"><button type="button" class="button secondary" @click="changeQuantity(1)" :disabled="!validQuantity || quantity >= 10" aria-label="Tăng số lượng">+</button></div><p id="quantity-help" class="field-help" :class="{ error: !validQuantity }">{{ validQuantity ? 'Mỗi đơn được đặt từ 1 đến 10 vé.' : 'Số lượng phải là số nguyên từ 1 đến 10.' }}</p></div>
+            <label class="check-option combo-option"><input v-model="hasCombo" type="checkbox"><span>Thêm combo bắp nước<small>45.000 đ / đơn đặt vé</small></span></label>
+            <div class="actions"><button class="button" type="submit" :disabled="!canBook">Đặt vé</button><button class="button secondary" type="button" @click="resetForm">Đặt lại form</button></div>
+          </form>
+        </section>
+        <aside class="panel order-summary"><p>Phim: <strong>{{ movie }}</strong></p><div class="summary-body"><h2>Thông tin vé</h2><dl class="summary-lines"><div><dt>Suất chiếu</dt><dd>{{ showtime }}</dd></div><div><dt>{{ ticketType === 'vip' ? 'Vé VIP' : 'Vé thường' }}</dt><dd>{{ money(ticketPrice) }} × {{ validQuantity ? quantity : '—' }}</dd></div><div><dt>Combo bắp nước</dt><dd>{{ hasCombo ? money(45000) : 'Không chọn' }}</dd></div></dl><div class="total-line"><span>Tổng tiền</span><strong>{{ validQuantity ? money(totalPrice) : '—' }}</strong></div><p class="field-help">Combo được tính một lần cho mỗi đơn.</p></div></aside>
+      </div>
+      <section v-if="confirmation" class="panel confirmation" role="status" aria-live="polite"><h2>Xác nhận đặt vé</h2><p>Khách hàng: {{ confirmation.customerName }}</p><p>Bạn đã đặt {{ confirmation.quantity }} {{ confirmation.ticketLabel }} cho phim <strong>{{ confirmation.movie }}</strong>, suất {{ confirmation.showtime }}.</p><p>Combo bắp nước: <strong>{{ confirmation.hasCombo ? 'Có' : 'Không' }}</strong> · Tổng tiền: <strong>{{ money(confirmation.totalPrice) }}</strong></p></section>
+    </div>
+    <noscript>Vui lòng bật JavaScript để chạy bài tập VueJS.</noscript>
+  </main>
+</body>
+</html>

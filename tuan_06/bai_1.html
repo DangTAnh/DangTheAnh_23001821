@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bài 1 · Thẻ thông tin sinh viên</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/vue.global.prod.js" defer></script>
+  <script src="assets/bai_1.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><a href="index.html">Tuần 6</a><nav aria-label="Bài tập"><a href="bai_1.html" aria-current="page">Bài 1</a><a href="bai_2.html">Bài 2</a><a href="bai_3.html">Bài 3</a></nav></header>
+  <main>
+    <h1>Bài 1: Thẻ thông tin sinh viên</h1>
+    <div id="app" class="two-column" v-cloak>
+      <section class="panel student-card" aria-label="Thẻ thông tin sinh viên">
+        <div class="card-top"><span>Trạng thái:</span><span class="badge" :class="student.studying ? 'success' : 'neutral'"><span v-if="student.studying">Đang học</span><span v-else>Đã nghỉ</span></span></div>
+        <!-- v-bind gắn cả nguồn ảnh và nội dung thay thế. -->
+        <img class="avatar" v-bind:src="student.avatar" v-bind:alt="'Ảnh đại diện của ' + student.name" width="120" height="120">
+        <h2>{{ student.name }}</h2>
+        <p class="muted">{{ student.id }}</p>
+        <dl class="profile-details"><div><dt>Lớp</dt><dd v-text="student.className"></dd></div><div><dt>Điểm trung bình</dt><dd>{{ validScore ? student.average : '—' }} <span class="muted">/ 10</span></dd></div><div><dt>Xếp loại</dt><dd><span class="badge" :class="rankClass"><span v-if="!validScore">Điểm không hợp lệ</span><span v-else-if="student.average >= 8">Giỏi</span><span v-else-if="student.average >= 6.5">Khá</span><span v-else-if="student.average >= 5">Trung bình</span><span v-else>Chưa đạt</span></span></dd></div></dl>
+        <button class="button secondary full-width" type="button" @click="showIntro = !showIntro" :aria-expanded="showIntro" aria-controls="introduction">{{ showIntro ? 'Ẩn giới thiệu' : 'Hiện giới thiệu' }}</button>
+        <p id="introduction" class="intro" v-show="showIntro">{{ student.introduction }}</p>
+      </section>
+      <section class="panel"><h2>Chỉnh sửa thông tin</h2>
+        <div class="form-stack">
+          <label for="student-id">Mã sinh viên<input id="student-id" v-model.trim="student.id" type="text"></label>
+          <label for="student-name">Họ và tên<input id="student-name" v-model.trim="student.name" type="text"></label>
+          <label for="student-class">Lớp<input id="student-class" v-model.trim="student.className" type="text"></label>
+          <label for="average">Điểm trung bình<input id="average" v-model.number="student.average" type="number" min="0" max="10" step="0.1" :aria-invalid="!validScore" aria-describedby="score-help"></label>
+          <p id="score-help" class="field-help" :class="{ error: !validScore }">{{ validScore ? 'Nhập điểm từ 0 đến 10.' : 'Vui lòng nhập điểm hợp lệ từ 0 đến 10.' }}</p>
+          <label class="check-option"><input v-model="student.studying" type="checkbox"> Sinh viên đang học</label>
+          <label for="intro-input">Giới thiệu<textarea id="intro-input" v-model.trim="student.introduction" rows="3"></textarea></label>
+        </div>
+      </section>
+    </div>
+    <noscript>Vui lòng bật JavaScript để chạy bài tập VueJS.</noscript>
+  </main>
+</body>
+</html>

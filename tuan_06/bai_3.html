@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bài 3 · Quản lý công việc cá nhân</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/vue.global.prod.js" defer></script>
+  <script src="assets/bai_3.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><a href="index.html">Tuần 6</a><nav aria-label="Bài tập"><a href="bai_1.html">Bài 1</a><a href="bai_2.html">Bài 2</a><a href="bai_3.html" aria-current="page">Bài 3</a></nav></header>
+  <main class="task-main">
+    <h1>Bài 3: Quản lý công việc cá nhân</h1>
+    <div id="app" v-cloak>
+      <p aria-live="polite">Tổng: {{ totalTasks }} | Chưa hoàn thành: {{ remainingTasks }} | Đã hoàn thành: {{ completedTasks }}</p>
+      <section class="panel">
+        <!-- .prevent xử lý cả nút Thêm và phím Enter, không tải lại trang. -->
+        <form class="task-form" @submit.prevent="addTask"><div><label for="new-task">Tên công việc</label><input id="new-task" v-model.trim="newTask" type="text" placeholder="Nhập công việc cần làm" autocomplete="off" :aria-invalid="Boolean(error)" aria-describedby="task-error" @input="error = ''"></div><button class="button" type="submit">Thêm</button></form>
+        <p id="task-error" class="error field-help" v-if="error" role="alert">{{ error }}</p>
+        <div class="task-toolbar"><div class="filters" role="group" aria-label="Lọc công việc"><button v-for="option in filters" :key="option.value" type="button" :class="{ active: filter === option.value }" :aria-pressed="filter === option.value" @click="filter = option.value">{{ option.label }}</button></div><span class="muted small">{{ filteredTasks.length }} công việc</span></div>
+        <ul v-if="filteredTasks.length" class="task-list"><li v-for="task in filteredTasks" :key="task.id" :class="{ completed: task.completed }"><label class="task-label"><input v-model="task.completed" type="checkbox"><span>{{ task.name }}</span></label><button class="delete-button" type="button" @click.stop="deleteTask(task.id)" :aria-label="'Xóa công việc ' + task.name">Xóa</button></li></ul>
+        <div v-else class="empty-state"><p>{{ emptyTitle }}</p></div>
+        <div class="task-footer"><button class="text-button" type="button" @click="clearCompleted" :disabled="completedTasks === 0">Xóa các việc đã hoàn thành</button></div>
+      </section>
+    </div>
+    <noscript>Vui lòng bật JavaScript để chạy bài tập VueJS.</noscript>
+  </main>
+</body>
+</html>
