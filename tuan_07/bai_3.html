@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bài 3 - Giỏ hàng với props và $emit</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/vue.global.prod.js" defer></script>
+  <script src="components/DongGioHang.js" defer></script>
+  <script src="assets/bai_3.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="index.html">Tuần 7</a>
+    <nav aria-label="Bài tập">
+      <a href="bai_1.html">Bài 1</a>
+      <a href="bai_2.html">Bài 2</a>
+      <a href="bai_3.html" aria-current="page">Bài 3</a>
+    </nav>
+  </header>
+  <main id="app" v-cloak>
+    <h1>Bài 3: Giỏ hàng với props và $emit</h1>
+    <div v-if="cart.length">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th>Thành tiền</th><th>Thao tác</th></tr></thead>
+          <tbody>
+            <!-- is giữ component ở đúng vị trí trong bảng HTML. -->
+            <tr
+              is="vue:dong-gio-hang"
+              v-for="item in cart"
+              :key="item.id"
+              :ma="item.id"
+              :ten="item.name"
+              :don-gia="item.price"
+              :so-luong="item.quantity"
+              @doi-so-luong="changeQuantity"
+              @yeu-cau-xoa="removeItem"
+            ></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Tổng số lượng: <strong>{{ totalQuantity }}</strong></p>
+      <p>Tổng tiền: <strong>{{ money(totalPrice) }}</strong></p>
+    </div>
+    <p v-else>Giỏ hàng trống</p>
+    <p v-if="error" class="error" role="alert">{{ error }}</p>
+  </main>
+  <noscript>Vui lòng bật JavaScript để chạy bài tập.</noscript>
+</body>
+</html>

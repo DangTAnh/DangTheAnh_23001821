@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bài 2 - Danh mục sản phẩm bằng component</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/vue.global.prod.js" defer></script>
+  <script src="components/TheSanPham.js" defer></script>
+  <script src="assets/bai_2.js" defer></script>
+</head>
+<body>
+  <header>
+    <a href="index.html">Tuần 7</a>
+    <nav aria-label="Bài tập">
+      <a href="bai_1.html">Bài 1</a>
+      <a href="bai_2.html" aria-current="page">Bài 2</a>
+      <a href="bai_3.html">Bài 3</a>
+    </nav>
+  </header>
+  <main id="app" v-cloak>
+    <h1>Bài 2: Danh mục sản phẩm bằng component</h1>
+    <div class="product-list">
+      <the-san-pham
+        v-for="product in products"
+        :key="product.id"
+        :ten="product.name"
+        :gia="product.price"
+        :anh="product.image"
+        :mo-ta="product.description"
+        :ton-kho="product.stock"
+        @mua="showPurchaseNotice"
+      ></the-san-pham>
+    </div>
+    <p v-if="notice" role="status">{{ notice }}</p>
+  </main>
+  <noscript>Vui lòng bật JavaScript để chạy bài tập.</noscript>
+</body>
+</html>

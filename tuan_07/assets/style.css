@@ -1,0 +1,41 @@
+* { box-sizing: border-box; }
+[v-cloak] { display: none; }
+body { max-width: 1000px; margin: 24px auto; padding: 0 16px; font: 16px/1.5 Arial, sans-serif; color: #222; background: #fff; }
+a { color: #1659a5; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 30px; padding-bottom: 12px; border-bottom: 1px solid #ccc; }
+nav { display: flex; gap: 18px; }
+nav a[aria-current] { font-weight: bold; }
+h1 { font-size: 26px; margin: 24px 0; }
+h2 { font-size: 20px; margin: 0 0 16px; }
+.exercise-list li { margin: 12px 0; }
+input, button, select { font: inherit; }
+input, select { display: block; width: 100%; min-width: 0; margin-top: 5px; padding: 7px 8px; border: 1px solid #aaa; border-radius: 3px; }
+button { padding: 6px 12px; border: 1px solid #aaa; border-radius: 3px; color: #222; background: #eee; cursor: pointer; }
+button:hover:not(:disabled) { background: #ddd; }
+button:disabled { opacity: .5; cursor: default; }
+.filters { display: flex; flex-wrap: wrap; gap: 15px; }
+.filters label { flex: 1; min-width: 180px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 9px; border: 1px solid #ccc; text-align: left; }
+th { background: #f2f2f2; }
+.price { white-space: nowrap; }
+.success { color: #16803b; }
+.error { color: #b52222; }
+.warning { color: #946000; }
+.panel, .product-card { border: 1px solid #ccc; padding: 20px; }
+.add-product { max-width: 450px; margin-top: 25px; }
+form label { display: block; margin-bottom: 12px; }
+.product-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.product-card { min-width: 0; overflow-wrap: anywhere; }
+.product-card img { display: block; object-fit: contain; margin-bottom: 12px; }
+.product-card p { margin: 10px 0; }
+.actions, .quantity { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.quantity { flex-wrap: nowrap; }
+.quantity span { min-width: 24px; text-align: center; }
+.quantity button { padding: 4px 10px; }
+@media (max-width: 600px) {
+  h1 { font-size: 23px; }
+  .product-list { grid-template-columns: 1fr; }
+  .panel, .product-card { padding: 15px; }
+}
