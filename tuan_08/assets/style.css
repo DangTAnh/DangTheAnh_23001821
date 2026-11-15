@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+[v-cloak] { display: none; }
+body { max-width: 900px; margin: 24px auto; padding: 0 16px; font: 16px/1.5 Arial, sans-serif; color: #222; background: #fff; }
+a { color: #1659a5; }
+header { padding-bottom: 12px; border-bottom: 1px solid #ccc; }
+h1 { font-size: 26px; margin: 24px 0; }
+h2 { font-size: 20px; margin: 0 0 16px; }
+input, button { font: inherit; }
+input { display: block; width: 100%; min-width: 0; margin-top: 5px; padding: 7px 8px; border: 1px solid #aaa; border-radius: 3px; }
+button { padding: 6px 12px; border: 1px solid #aaa; border-radius: 3px; color: #222; background: #eee; cursor: pointer; }
+button:hover:not(:disabled) { background: #ddd; }
+button:disabled { opacity: .5; cursor: default; }
+.table-wrap { margin-top: 16px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 9px; border: 1px solid #ccc; text-align: left; overflow-wrap: anywhere; }
+th { background: #f2f2f2; }
+.price { white-space: nowrap; }
+.actions { min-width: 130px; }
+.actions button + button { margin-left: 5px; }
+.success { color: #16803b; }
+.error { color: #b52222; }
+.panel { max-width: 430px; margin-top: 24px; border: 1px solid #ccc; padding: 20px; }
+fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+label { display: block; margin-bottom: 12px; }
+.confirm-delete { border: 1px solid #aaa; padding: 12px; margin-top: 16px; overflow-wrap: anywhere; }
+.confirm-delete p { margin: 0 0 10px; }
+@media (max-width: 600px) {
+  h1 { font-size: 23px; }
+  .panel { padding: 15px; }
+}
