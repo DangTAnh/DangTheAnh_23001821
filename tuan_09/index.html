@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuần 9 - Upload ảnh và phân trang</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/vendor/vue.global.prod.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <header><a href="../">Về trang chủ</a></header>
+  <main id="app" v-cloak>
+    <h1>Bài tập tuần 9 - Upload ảnh và phân trang</h1>
+    <p v-if="error" class="error" role="alert">{{ error }}</p>
+    <p v-if="message" class="success" role="status">{{ message }}</p>
+    <p v-if="loading" role="status">Đang tải danh sách...</p>
+    <button type="button" @click="reloadProducts" :disabled="busy">Tải lại danh sách</button>
+
+    <div v-if="pendingDelete" class="confirm-delete" role="alert">
+      <p>Bạn có muốn xóa sản phẩm <strong>{{ pendingDelete.name }}</strong>?</p>
+      <button ref="confirmDelete" type="button" @click="deleteProduct" :disabled="busy">Xác nhận xóa</button>
+      <button type="button" @click="pendingDelete = null" :disabled="busy">Hủy</button>
+    </div>
+
+    <div class="table-wrap" :aria-busy="loading">
+      <table>
+        <thead><tr><th>Ảnh</th><th>Tên sản phẩm</th><th>Đơn giá</th><th>Số lượng tồn</th><th>Thao tác</th></tr></thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.id">
+            <td><img v-if="product.image" class="thumbnail" :src="product.image" :alt="product.name"><span v-else>Chưa có ảnh</span></td>
+            <td>{{ product.name }}</td>
+            <td class="price">{{ money(product.price) }}</td>
+            <td>{{ product.stock }}</td>
+            <td class="actions">
+              <button type="button" @click="editProduct(product)" :disabled="busy" :aria-label="'Sửa ' + product.name">Sửa</button>
+              <button type="button" @click="requestDelete(product)" :disabled="busy" :aria-label="'Xóa ' + product.name">Xóa</button>
+            </td>
+          </tr>
+          <tr v-if="!loading && !products.length"><td colspan="5">{{ error ? 'Chưa tải được danh sách.' : 'Chưa có sản phẩm' }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button type="button" @click="changePage(pagination.page - 1)" :disabled="busy || pagination.page <= 1 || pagination.total === 0">Trước</button>
+      <span aria-live="polite">Trang {{ pagination.page }} / {{ pagination.total_pages }} — Tổng {{ pagination.total }} sản phẩm</span>
+      <button type="button" @click="changePage(pagination.page + 1)" :disabled="busy || pagination.page >= pagination.total_pages || pagination.total === 0">Sau</button>
+    </div>
+
+    <section class="panel">
+      <h2>{{ editingId === null ? 'Thêm sản phẩm' : 'Sửa sản phẩm #' + editingId }}</h2>
+      <form @submit.prevent="saveProduct" novalidate>
+        <fieldset :disabled="busy">
+          <label for="name">Tên sản phẩm<input ref="nameInput" id="name" v-model.trim="form.name" type="text" required></label>
+          <label for="price">Đơn giá (đồng)<input id="price" v-model.number="form.price" type="number" min="1" max="2147483647" step="1" required></label>
+          <label for="stock">Số lượng tồn<input id="stock" v-model.number="form.stock" type="number" min="0" max="2147483647" step="1" required></label>
+          <label for="image">Ảnh sản phẩm (không bắt buộc)<input ref="imageInput" id="image" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" @change="selectImage"></label>
+          <p class="help">Chấp nhận JPG, JPEG, PNG, tối đa 2 MB. Không chọn ảnh mới khi sửa sẽ giữ ảnh cũ.</p>
+          <p v-if="imageError" class="error" role="alert">{{ imageError }}</p>
+          <img v-if="previewImage" class="preview" :src="previewImage" alt="Ảnh xem trước">
+          <button v-if="selectedFile" type="button" @click="clearSelectedImage">Bỏ ảnh vừa chọn</button>
+          <p v-if="formError" class="error" role="alert">{{ formError }}</p>
+          <p v-if="uploadError" class="error" role="alert">{{ uploadError }}</p>
+          <div class="form-actions">
+            <button type="submit">{{ saving ? 'Đang lưu...' : 'Lưu' }}</button>
+            <button v-if="uploadError && selectedFile && editingId !== null" type="button" @click="retryUpload">Thử lại upload</button>
+            <button v-if="editingId !== null" type="button" @click="resetForm">Hủy sửa</button>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  </main>
+  <noscript>Vui lòng bật JavaScript để chạy bài tập.</noscript>
+</body>
+</html>
